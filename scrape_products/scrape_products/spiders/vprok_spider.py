@@ -1,5 +1,9 @@
 import scrapy
-from scrape_products.scrape_products.items import ScrapeProductsItem
+from scrape_products.items import ScrapeProductsItem
+from scrapy.loader import ItemLoader
+
+
+# scrapy crawl vprok_web -O vprok.json
 
 
 class VprokSpider(scrapy.Spider):
@@ -13,15 +17,20 @@ class VprokSpider(scrapy.Spider):
 
         ATTRIBUTE_NAME = 'data-owox-product-name'
         ATTRIBUTE_LINK = 'data-product-card-url'
-        ATTRIBUTE_CATEGORY_ID = 'data-owox-category-id'
         ATTRIBUTE_CATEGORY_NAME = 'data-owox-category-name'
+        ATTRIBUTE_CATEGORY_ID = 'data-owox-category-id'
+        ATTRIBUTE_PRICE = 'data-owox-product-price'
         ATTRIBUTE_AVAILABLE = 'data-owox-is-available'
 
-        item = ScrapeProductsItem()
-        for brickset in response.css(CLASS_PRODUCT):
-            NAME_SELECTOR = 'h1 ::text'
-            PIECES_SELECTOR = './/dl[dt/text() = "Pieces"]/dd/a/text()'
-            MINIFIGS_SELECTOR = './/dl[dt/text() = "Minifigs"]/dd[2]/a/text()'
-            IMAGE_SELECTOR = 'img ::attr(src)'
-            item['name'] = brickset.attrib[ATTRIBUTE_NAME]
-            yield item
+        dict_field_attribute = {'name': ATTRIBUTE_NAME,
+                                'link': ATTRIBUTE_LINK,
+                                'category': ATTRIBUTE_CATEGORY_NAME,
+                                'category_id': ATTRIBUTE_CATEGORY_ID,
+                                'price': ATTRIBUTE_PRICE}
+
+        for product_card in response.css(CLASS_PRODUCT):
+            i_loader = ItemLoader(item=ScrapeProductsItem(), selector=product_card)
+            for field_name, attr_name in dict_field_attribute.items():
+                i_loader.add_css(field_name, f"::attr({attr_name})")
+            i_loader.add_css('rating', "span.xf-product-rating__visual::attr(class)")
+            yield i_loader.load_item()
