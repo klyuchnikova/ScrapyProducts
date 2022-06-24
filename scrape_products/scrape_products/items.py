@@ -22,6 +22,8 @@ class ScrapeProductsItem(scrapy.Item):
     category = scrapy.Field(input_processor=MapCompose(remove_tags))
     category_id = scrapy.Field()
     price = scrapy.Field(input_processor=MapCompose(remove_tags))
-    # kkal = scrapy.Field()
-    # producer = scrapy.Field()
+    
+    kkal = scrapy.Field()
+    producer = scrapy.Field()
+
     rating = scrapy.Field(input_processor=MapCompose(remove_tags, extract_rating))
