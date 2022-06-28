@@ -13,7 +13,8 @@ def ReadVprokJson(file_path = path.join(path.dirname(sys.path[0]), "vprok.json")
     print(data)
 
 def TestSelector():
-    response = requests.request(method='GET', url='https://www.vprok.ru/product/market-perekrestok-yabloki-zelenye-fasovannye-1-5-kg-up--1177093')
+    url = 'https://lenta.com/product/pashtet-jean-de-veyrac-iz-utki-po-starinnomu-receptu-franciya-130g-492337/'
+    response = requests.get(url, 'html.parser')
     print(response)
     return 'hi' #response.xpath('@ui-id-1').get()
 

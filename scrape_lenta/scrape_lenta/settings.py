@@ -1,4 +1,4 @@
-# Scrapy settings for scrape_products project
+# Scrapy settings for scrape_lenta project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -8,11 +8,10 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import os
 
+BOT_NAME = 'scrape_lenta'
 
-BOT_NAME = 'scrape_products'
-
-SPIDER_MODULES = ['scrape_products.spiders']
-NEWSPIDER_MODULE = 'scrape_products.spiders'
+SPIDER_MODULES = ['scrape_lenta.spiders']
+NEWSPIDER_MODULE = 'scrape_lenta.spiders'
 
 ITEM_PIPELINES = {
     "scrape_products.pipelines.ScrapePipeline": 300,
@@ -31,7 +30,7 @@ LOG_FORMAT = "%(asctime)s : %(levelname)s : %(message)s"
 LOG_FILE = "/tmp/scrapy.log"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scrape_products (+http://www.yourdomain.com)'
+#USER_AGENT = 'scrape_lenta (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -62,13 +61,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'scrape_products.middlewares.ScrapeProductsSpiderMiddleware': 543,
+#    'scrape_lenta.middlewares.ScrapeLentaSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'scrape_products.middlewares.ScrapeProductsDownloaderMiddleware': 543,
+#    'scrape_lenta.middlewares.ScrapeLentaDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -80,7 +79,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'scrape_products.pipelines.ScrapeProductsPipeline': 300,
+#    'scrape_lenta.pipelines.ScrapeLentaPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -89,12 +88,12 @@ ROBOTSTXT_OBEY = True
 # The initial download delay
 #AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
-AUTOTHROTTLE_MAX_DELAY = 20
+#AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
-AUTOTHROTTLE_DEBUG = False
+#AUTOTHROTTLE_DEBUG = False
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings

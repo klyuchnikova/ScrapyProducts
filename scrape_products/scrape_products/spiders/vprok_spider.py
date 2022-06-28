@@ -8,6 +8,7 @@ from scrapy.loader import ItemLoader
 
 class VprokSpider(scrapy.Spider):
     name = "vprok_web"
+    allowed_domains = ["www.vprok.ru"]
     start_urls = ["https://www.vprok.ru/"]
 
     def parse(self, response, **kwargs):

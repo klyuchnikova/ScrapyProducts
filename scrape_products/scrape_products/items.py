@@ -3,8 +3,8 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
-import scrapy
 from itemloaders.processors import MapCompose
+from scrapy import Field, Item
 from w3lib.html import remove_tags
 
 
@@ -16,14 +16,14 @@ def extract_rating(rating_span_classes):
     return "none"
 
 
-class ScrapeProductsItem(scrapy.Item):
-    name = scrapy.Field(input_processor=MapCompose(remove_tags))
-    link = scrapy.Field()
-    category = scrapy.Field(input_processor=MapCompose(remove_tags))
-    category_id = scrapy.Field()
-    price = scrapy.Field(input_processor=MapCompose(remove_tags))
-    
-    kkal = scrapy.Field()
-    producer = scrapy.Field()
+class ScrapeProductsItem(Item):
+    name = Field(input_processor=MapCompose(remove_tags))
+    link = Field()
+    category = Field(input_processor=MapCompose(remove_tags))
+    category_id = Field()
+    price = Field(input_processor=MapCompose(remove_tags))
 
-    rating = scrapy.Field(input_processor=MapCompose(remove_tags, extract_rating))
+    kkal = Field()
+    producer = Field()
+
+    rating = Field(input_processor=MapCompose(remove_tags, extract_rating))
