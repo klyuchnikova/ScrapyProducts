@@ -1,13 +1,15 @@
-from scrape_products.items import ScrapeProductsItem
+from scrape_lenta.items import ScrapeProductsItem
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from scrapy.loader import ItemLoader
-from scrapy.spiders import CrawlSpider, Rule
+
+# scrapy crawl vprok_web -O vprok.json
 
 
-# scrapy crawl all_vprok_products -O vprok_products.json
-
-class VprokCatalogSpider(CrawlSpider):
-    name = "all_vprok_products"
+class VprokSpider(CrawlSpider):
+    name = "lenta_web"
+    allowed_domains = ["lenta.com"]
+    start_urls = ["https://lenta.com/"]
     start_urls = ["https://www.vprok.ru/"]
     rules = [
         Rule(LinkExtractor(allow='product', callback='parse_item'))
@@ -17,13 +19,20 @@ class VprokCatalogSpider(CrawlSpider):
         MAIN_UI_ID = '#ui-id-1'
 
         CLASS_PRODUCT = '.xf-product'
-        CLASS_RATING_SCROLL = 'xf-product-new__rating  js-link-scroll'
-        # inside <ul> -> number of <li> with class = "xf-product-new__rating__star._active" is the rating
-        # right after <a> xf-card-action__text with text which is the number of ratings
-        CLASS_NAME_TAG = "xf-product-new__title js-product__title js-product-new-title"
-        CLASS_PRICE_ROUBLE = "js-price-rouble"  # span with text, might be a few, take first
+        CLASS_RATING_SCROLL = 'sku-page__commenter-rating-overview-stars js-sku-page-commenter-rating-overview-stars'
+        # data-rating = float number
+        CLASS_NAME_TAG = "sku-page__title" # h1 with text
+        CLASS_PRICE_LABEL = "price-label"  # might be a few instances, like +regular class
+        CLASS_PRICE_LABEL_REGUALR = "price-label--regular"
+        CLASS_PRICE_LABEL_PRIMARY = "price-label--primary"
+        CLASS_PRICE_NUMBERS = ["price-label__integer", "price-label__fraction"]
 
-        ATTRIBUTE_NAME = 'data-owox-product-name'
+        CLASS_PARAMETER_TABLE = "sku-card-tab-params__group" #-> sku-card-tab-params__item
+        CLASS_PARAMETER_ITEM = "sku-card-tab-params__item"
+        CLASS_PARAMETER_NAME = "sku-card-tab-params__label"
+        CLASS_PARAMETER_VALUE = "sku-card-tab-params__value"
+
+        ATTRIBUTE_NAME = 'sku-page__title'
         ATTRIBUTE_LINK = 'data-product-card-url'
         ATTRIBUTE_CATEGORY_NAME = 'data-owox-category-name'
         ATTRIBUTE_CATEGORY_ID = 'data-owox-category-id'
